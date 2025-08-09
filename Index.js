@@ -42,7 +42,7 @@ function solveExponents(a, n){
             }
         }
         i++
-        if(i > 2000){console.error("Code ran over 2000 times, that sucks."); break}
+        if(i > 2000){console.error("Code ran over 2000 times, what have you done."); window.alert("Code ran over 2000 times, that sucks."); break}
     }
     return exponents
 }
@@ -106,12 +106,12 @@ document.getElementById('solveButton').onclick = function(){
         }
         return idkwhattonamethisimtiredandits4am
     }
-    for(let i = 0; (i <= result.coefficients.length - 1) && (i <= 15); i++){
+    for(let i = 0; (i <= result.coefficients.length - 1); i++){
         displayFullText += ((result.coefficients[i] == 1) ? "" : String(result.coefficients[i])) + (varsAndExponents(i)) 
-        + (((i == result.coefficients.length - 1) || (i == 15)) ? "" : "+")
-        if(i == 15){displayFullText += "..."}
+        + (((i == result.coefficients.length - 1)) ? "" : "+")
+        if((i % 15 == 0) && i > 0){displayFullText += "$$<wbr>$$"}
     }
-    document.getElementById('resultDisplay').innerText = "$$" + displayFullText + "$$"
+    document.getElementById('resultDisplay').innerHTML = "$$" + displayFullText + "$$"
     MathJax.typesetPromise([document.getElementById('inputDisplay')])
     MathJax.typesetPromise([document.getElementById('resultDisplay')])
     console.log(result)
