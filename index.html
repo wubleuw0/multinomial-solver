@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<!-- all of the code on this site is just a huge fucking mess :) -->
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="style.css">
+        <link href="prism.css" rel="stylesheet" />
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    </head>
+    <body id="body">
+        <pre style="color: rgba(245, 245, 245, 0.6);">using MathJax V4.0 & Prism.js
+for math display and syntax highlights
+also this was for fun so idc abt user-friendliness
+        </pre>
+        <h1 id="h1">Multinomial Solver</h1>
+        <button id="solveButton">
+            <t>SOLVE</t>
+        </button>
+        <br>
+        <t class="inputHeader">number of varibles (a)</t>
+        <br>
+        <input id="input0" value=3>
+        <br>
+        <t class="inputHeader">exponent (n)</t>
+        <br>
+        <input id="input1" value=4>
+        <br>
+        <h2 id="inputDisplay" style="color: whitesmoke; background-color: rgba(0, 0, 0, 0.45); box-shadow: 0px 0px 6px rgb(0 0 0);">normal</h2>
+        <h2 id="resultDisplay" style="color: whitesmoke; background-color: rgba(0, 0, 0, 0.45); box-shadow: 0px 0px 6px rgb(0 0 0); margin: 0px;">expanded</h2>
+        <h3 style="color: white; margin: 5px;">v JS code v</h3>
+        <pre style="background-color: rgba(0, 0, 0, 0.45); box-shadow: 0px 0px 25px rgb(0 0 0);">
+            <code class="language-javascript" style="text-shadow: 0px 0px 10px;">
+function solveMultinomial(a, n){
+    let exponents = solveExponents(a, n)
+    let result = {
+        coefficients: solveCoefficients(exponents, n),
+        exponents: exponents,
+        a: a,
+        n: n
+    }
+    return result
+}
+
+function solveExponents(a, n){
+    let exponents = new Array(a).fill(null).map(() => [0])
+    exponents[0][0] = n
+    let i = 1
+    while((exponents[a - 1][exponents[a - 1].length - 1]) != n){
+        for(j = 0; j <= a - 1; j++){
+            if((j != 0) && (exponents[j - 1][i] - exponents[j - 1][i - 1] == -1)){
+                exponents[j].push(n)
+                for(let k = 0; k <= j - 1; k++){
+                    exponents[j][i] -= exponents[k][i]
+                }
+            }
+            else{
+                let highValue0 = n
+                for(let k = 0; (k <= j) && (k < a - 1); k++){
+                    highValue0 -= exponents[k][i - 1]
+                }
+                if(exponents[a - 1][i - 1] == highValue0){
+                    exponents[j].push(exponents[j][i - 1] - Math.sign(exponents[j][i - 1]))
+                    let highValue1 = n
+                    for(let k = 0; (k < j); k++){
+                        highValue1 -= exponents[k][i]
+                    }
+                    if((exponents[j][i] > highValue1) && (j != 0)){
+                    exponents[j][i] = 0
+                    }
+                }
+                else{
+                    exponents[j].push(exponents[j][i - 1])
+                }
+            }
+        }
+        i++
+        if(i > 2000){console.error("Code ran over 2000 times, that sucks."); break}
+    }
+    return exponents
+}
+
+function solveCoefficients(e, n){
+    let coefficients = []
+    for(let k = 0; k <= e[0].length - 1; k++){
+        let currentExponents = new Array(e.length)
+        for(i = 0; i <= e.length - 1; i++){
+            currentExponents[i] = factorial(e[i][k])
+        }
+        coefficients.push(factorial(n) / prod(currentExponents))
+    }
+    return coefficients
+}
+
+function factorial(n){
+  if (n < 0) {
+    return "Factorial is not defined for negative numbers."
+  }
+  if (n === 0 || n === 1) {
+    return 1
+  }
+  let result = 1
+  for (let i = 1; i <= n; i++) {
+    result *= i
+  }
+  return result
+}
+
+function total(l){
+    return l.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+}
+
+function prod(l){
+    let result = 1
+    for(let i = 0; i <= l.length - 1; i++){
+        result *= l[i]
+    }
+    return result
+}
+
+document.getElementById('solveButton').onclick = function(){
+    let result = solveMultinomial(Number(document.getElementById('input0').value), Number(document.getElementById('input1').value))  //dont touch fisjh :(
+    const CHAR = "abcdefghijklmnopqrstuvwxyz"
+    document.getElementById('inputDisplay').innerText = "$$("
+    for(let i = 0; i <= result.a - 1; i++){
+        document.getElementById('inputDisplay').innerText += CHAR.charAt(i) 
+        + ((i == result.a - 1) ? "" : "+")
+    }
+    document.getElementById('inputDisplay').innerText += ")^{" + String(result.n) + "}$$"
+    let displayFullText = ""
+    let dispalyVars = ""
+    function varsAndExponents(i){
+        let idkwhattonamethisimtiredandits4am = ""
+        for(let j = 0; j <= result.a - 1; j++){
+            if(result.exponents[j][i] != 0){
+                idkwhattonamethisimtiredandits4am += CHAR.charAt(j) 
+                + ((result.exponents[j][i] > 1) ? ("^{" + String(result.exponents[j][i]) + "}") : (""))
+            }
+        }
+        return idkwhattonamethisimtiredandits4am
+    }
+    for(let i = 0; (i <= result.coefficients.length - 1) && (i <= 15); i++){
+        displayFullText += ((result.coefficients[i] == 1) ? "" : String(result.coefficients[i])) + (varsAndExponents(i)) 
+        + (((i == result.coefficients.length - 1) || (i == 15)) ? "" : "+")
+        if(i == 15){displayFullText += "..."}
+    }
+    document.getElementById('resultDisplay').innerText = "$$" + displayFullText + "$$"
+    MathJax.typesetPromise([document.getElementById('inputDisplay')])
+    MathJax.typesetPromise([document.getElementById('resultDisplay')])
+    console.log(result)
+}
+
+function rand(){
+    document.getElementById("body").style.setProperty('--rand', Math.random() * 75 + 128 - (75 / 2))
+}
+
+setInterval(rand, 5000)
+
+let h1Angle = 0;
+
+function updateAngle(){
+    document.getElementById("h1").style.transform = ` rotateX(${360 * Math.cos(h1Angle / (360 / Math.PI))}deg)`
+    if(h1Angle < 360 - 1){
+        h1Angle += 1
+    }
+    else{
+        h1Angle = 0
+    }
+}
+
+setInterval(updateAngle, 1)
+
+/****************************
+--------wubleu_w.2K25--------
+           (⊙ˍ⊙)
+****************************/
+            </code>
+        </pre>
+        <img id="gato" src="catifitwasafish.png">
+            <script>
+                document.getElementById('gato').onclick = function(){
+                    document.getElementById('body').style.transform = " rotateX(calc(var(--rand) * 1deg))";
+                    document.getElementById('body').style.backgroundSize = " 2000px";
+                    document.getElementById('body').style.textAlign = " right";
+                    document.getElementById('body').style.backgroundColor = " red";
+                    document.getElementById('h1').innerHTML = "WHY DID YOU DO IT"
+                    function IMGVirus(){
+                        let scrolltotop = document.scrollingElement.scrollTop
+                        document.body.innerHTML += `<img src="catifitwasafish.png" style="width: ${Math.random() * 65 + 75}px; height: ${Math.random() * 65 + 75}px; box-shadow: 0px 0px 10px rgb(43, 103, 243); position: absolute; margin: 0px; top: calc(${Math.random() * 100}vh + ${scrolltotop}px); left: ${Math.random() * 100}vw; transform: rotateX(180deg);">`
+                    }
+                    setInterval(IMGVirus, 0.1)
+                    setTimeout(() => {
+                        let txt = "afuahufheahfweh2384g8h384ghuhqguh489543876843r348r438fj834uft834u834ur4823u23r8ru8fu843ut482ut";
+                        while(true) { 
+                            txt = txt += "543876843r348r438fj834uft834u834ur4823u23r8ru8fu843ut482ut543876843r348r438fj834uft834u834ur4823u23r8ru8fu843ut482ut";
+                            console.log(txt);
+                            console.error(txt);
+                        }
+                    }, 15000);
+                }
+            </script>
+        </img>
+        <img id="note0" src="stoplookingatthefilename.png">
+        <img id="note1" src="whyareyoustilllooking.png">
+        <script src="Index.js">
+
+        </script>
+        <script src="prism.js">
+
+        </script>
+        <script id="paralax">
+            document.getElementById("body").onscroll = function () {  
+                let scrolltotop = document.scrollingElement.scrollTop
+                let target = document.getElementById("body")
+                let xvalue = "center"
+                let factor = 0.2
+                let yvalue = scrolltotop * factor
+                target.style.backgroundPosition = xvalue + " " + yvalue + "px"
+            }
+        </script>
+    </body>
+</html>
+
+<!-- skibidi -->

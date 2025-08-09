@@ -1,0 +1,100 @@
+#body {
+    --rand: 128;
+    background-color: rgba(0, 0, var(--rand), 0.7);
+    background-blend-mode: luminosity;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-size: 500px;
+  background-position: center;
+  animation: 1s linear 0s infinite running backgroundChange;
+}
+@keyframes backgroundChange {
+  0% {
+    background-image: url('1.png');
+  }
+  33% {
+    background-image: url('2.png');
+  }
+  66% {
+    background-image: url('3.png');
+  }
+  100% {
+    background-image: url('1.png');
+  }
+}
+input{
+    text-align: center;
+    font-size: 1.3em;
+    color: aliceblue;
+    width: 100px;
+    background-color: rgba(0, 0, 30, 0.7);
+    border-style: none;
+    border-radius: 0.6em;
+    box-shadow: 0px 0px 2px rgb(0 0 0);
+}
+.inputHeader{
+    color: aliceblue;
+    font-size: 1.1em;
+}
+#h1{
+    color: white;
+    font-size: 3em;
+    margin: 20px;
+
+    transform: rotate(0deg)
+}
+button{
+    text-align: center;
+    font-size: 1.5em;
+    color: aliceblue;
+    background-color: rgba(0, 0, 30, 0.7);
+    box-shadow: 0px 0px 4px rgb(0 0 0);
+    border-style: none;
+    border-radius: 0.6em;
+}
+button:hover{
+    box-shadow: 0px 0px 15px rgb(255 255 255), inset 0px 0px 15px rgb(255 255 255);
+}
+#gato{
+    --fishX: 0px;
+    --fishY: 0px;
+    --fishAngle: 0deg;
+    width: 100px;
+    height: 100px;
+    box-shadow: 0px 0px 10px rgb(43, 103, 243);
+    position: absolute;
+    margin: 0px;
+    left: calc(var(--fishX) + 50vw);
+    bottom: calc(var(--fishY) - 1800px);
+    transform: rotateZ(var(--fishAngle));
+    animation: 3s linear 0s infinite running swim ;
+}
+#gato:hover{
+    width: 170px;
+}
+@keyframes swim{
+    0%{--fishX: 0px; --fishY: 0px; --fishAngle: 0deg;}
+    50%{--fishX: 100px; --fishY: 200px; --fishAngle: 85deg;}
+    100%{--fishX: 200px; --fishY: -100px; --fishAngle: 190deg;}
+}
+#note0{
+    width: 200px;
+    height: 210px;
+    position: absolute;
+    margin: 0px;
+    right: 500px;
+    bottom: -500px;
+    transform: rotateZ(-62deg);
+}
+#note1{
+    width: 200px;
+    height: 250px;
+    position: absolute;
+    margin: 0px;
+    right: 200px;
+    bottom: -1200px;
+    transform: rotateZ(30deg);
+}
