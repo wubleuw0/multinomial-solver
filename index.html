@@ -183,6 +183,7 @@ setInterval(updateAngle, 1)
         <img id="gato" src="catifitwasafish.png">
             <script>
                 document.getElementById('gato').onclick = function(){
+                    document.getElementById('tunnelVision').style.animation = "none"
                     document.getElementById('body').style.transform = " rotateX(calc(var(--rand) * 1deg))";
                     document.getElementById('body').style.backgroundSize = " 2000px";
                     document.getElementById('body').style.textAlign = " right";
