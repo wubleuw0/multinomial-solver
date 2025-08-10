@@ -86,7 +86,7 @@ function prod(l){
 }
 
 document.getElementById('solveButton').onclick = function(){
-    let result = solveMultinomial(Number(document.getElementById('input0').value), Number(document.getElementById('input1').value))
+    let result = solveMultinomial(Number(document.getElementById('input0').value), Number(document.getElementById('input1').value))                  //dont touch fisjh :(
     const CHAR = "abcdefghijklmnopqrstuvwxyz"
     document.getElementById('inputDisplay').innerText = "$$("
     for(let i = 0; i <= result.a - 1; i++){

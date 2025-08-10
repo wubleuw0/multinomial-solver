@@ -11,6 +11,8 @@
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     </head>
     <body id="body">
+        <div id="tunnelVision">
+        </div>
         <pre style="color: rgba(245, 245, 245, 0.6);">using MathJax V4.0 & Prism.js
 for math display and syntax highlights
 also this was for fun so idc abt user-friendliness
@@ -121,7 +123,7 @@ function prod(l){
 }
 
 document.getElementById('solveButton').onclick = function(){
-    let result = solveMultinomial(Number(document.getElementById('input0').value), Number(document.getElementById('input1').value))
+    let result = solveMultinomial(Number(document.getElementById('input0').value), Number(document.getElementById('input1').value))                  //dont touch fisjh :(
     const CHAR = "abcdefghijklmnopqrstuvwxyz"
     document.getElementById('inputDisplay').innerText = "$$("
     for(let i = 0; i <= result.a - 1; i++){
@@ -144,7 +146,7 @@ document.getElementById('solveButton').onclick = function(){
     for(let i = 0; (i <= result.coefficients.length - 1); i++){
         displayFullText += ((result.coefficients[i] == 1) ? "" : String(result.coefficients[i])) + (varsAndExponents(i)) 
         + (((i == result.coefficients.length - 1)) ? "" : "+")
-        if((i % 15 == 0) && i > 0){displayFullText += "$$&lt;wbr&gt;$$"}
+        if((i % 15 == 0) && i > 0){displayFullText += "&lt;wbr&gt;"}
     }
     document.getElementById('resultDisplay').innerHTML = "$$" + displayFullText + "$$"
     MathJax.typesetPromise([document.getElementById('inputDisplay')])

@@ -98,3 +98,14 @@ button:hover{
     bottom: -1200px;
     transform: rotateZ(30deg);
 }
+#tunnelVision{
+    box-shadow: inset 0px 0px 200px rgba(127, 98, 255, 0.45);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    margin: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 1;
+    pointer-events: none;
+}
